@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
 import pickle
 import os
+import sys
 from datetime import datetime, timedelta
 #import getpass
 #from email.header import decode_header
@@ -16,7 +17,7 @@ def getDatesAndBalances():
 
     # Define credentials
     try:
-        username = os.environ["GMAIL_USERNAMEE"]
+        username = os.environ["GMAIL_USERNAME"]
         password = os.environ["GMAIL_APP_PASSWORD"]
     except:
         username = input("Enter your username: ")
@@ -24,7 +25,11 @@ def getDatesAndBalances():
 
     # Connect to Gmail IMAP server
     mail =imaplib.IMAP4_SSL("imap.gmail.com")
-    mail.login(username, password)
+    try:
+        mail.login(username, password)
+    except:
+        print("To use this application, you must login with an app password. To generate one, see the following link: https://support.google.com/accounts/answer/185833")
+        sys.exit()
     mail.select("inbox")
 
     # Search for all emails
@@ -125,10 +130,9 @@ def main():
         saveBalances(balances, filename)
     except Exception as e:
         print(f"Error occurred: {e}")
+        sys.exit()
     
-    #balances = getDatesAndBalances()
-    #saveBalances(balances)
-    #balances = loadBalances()
+
     balances = deDuplicateBalances(balances)
     balances = fillDateGaps(balances)
 
