@@ -10,3 +10,4 @@ parse the data from those emails, and display a line graph of your spending over
 * solution for if user has too much data to fit in a reasonable graph size
 * line that follows cursor?
 * Allow for multiple lines of different colors to compare user spending?
+* If user isn't scraping from email, no need to connect to internet / IMAP services
