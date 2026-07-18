@@ -113,7 +113,7 @@ def fillDateGaps(balances: list[tuple]):
 def main():
 
     #couple o vars
-    filename = "balances.pkl"
+    filename = "./data/balances.pkl"
     font = {'family': 'cursive',
             'color':  'darkred',
             'weight': 0,
