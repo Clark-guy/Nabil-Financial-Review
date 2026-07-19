@@ -22,3 +22,4 @@ parse the data from those emails, and display a line graph of your spending over
 * Allow for multiple lines of different colors to compare user spending?
 * If user isn't scraping from email, no need to connect to internet / IMAP services
 * Currently this application assumes you are using gmail. Need to either extend to other IMAP servers or make that more apparent.
+* Different graphing options before displaying. I've been toying with how I like it, but what options can I give to the user?

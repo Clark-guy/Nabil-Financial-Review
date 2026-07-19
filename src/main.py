@@ -121,6 +121,7 @@ def main():
             }
 
 
+    #Try to pull data from bytestream file - if failed, try to load from IMAP
     try:
         print(f"Trying to load balances from file: {filename}")
         balances = loadBalances(filename)
@@ -132,30 +133,35 @@ def main():
         print(f"Error occurred: {e}")
         sys.exit()
     
-
+    #Clean data up a bit
     balances = deDuplicateBalances(balances)
     balances = fillDateGaps(balances)
-
 
     #convert balances to independent date and rupee variables for plotting
     dates = [(x[0]) for x in balances]
     rupees = [float(y[1].replace(',','')) for y in balances]
-
+    
     plt.plot(dates, rupees)
-    #plt.xticks(rotation=-40, ha='left', rotation_mode='anchor')#, fontsize=6)
-    plt.tick_params(axis='x', direction='in', length=6)
     plt.subplots_adjust(bottom=.22)
-    plt.title("James' Financial Ruin, Visualized", fontdict=font)
-    plt.ylabel("Purchasing Power (NPR)", fontdict=font)
+
     fig, ax = plt.gcf(), plt.gca()
+    fig.set_figwidth(12)
+    ax.grid()
     ax.xaxis.set_major_formatter(mdates.DateFormatter('%d'))
     ax.xaxis.set_major_locator(mdates.DayLocator(bymonthday=[1, 5, 10, 15, 20, 25]))
+
     sec = ax.secondary_xaxis(location=-0.075)
-    sec.xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
     sec.xaxis.set_major_formatter(mdates.DateFormatter('  %b'))
+    sec.xaxis.set_major_locator(mdates.MonthLocator(bymonthday=1))
+
     sec.tick_params('x', length=0)
     sec.spines['bottom'].set_linewidth(0)
+
     sec.set_xlabel("Date", fontdict=font)
+    plt.ylabel("Purchasing Power (NPR)", fontdict=font)
+    plt.title("James' Financial Ruin, Visualized", fontdict=font)
+
+
     plt.show()
 
 
